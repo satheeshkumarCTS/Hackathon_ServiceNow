@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="cubicle" max_length="40" name="x_snc_powerplanner_cubicle" type="collection">
+        <element label="Light_Id" max_length="40" name="light_id" type="string"/>
+        <element label="name" max_length="40" name="name" type="string"/>
+        <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" type="string"/>
+        <element default="0" label="Persons_Count" max_length="40" name="persons_count" type="integer"/>
+    </element>
+</database>

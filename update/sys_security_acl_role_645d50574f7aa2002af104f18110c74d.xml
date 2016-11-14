@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_security_acl_role">
+    <sys_security_acl_role action="INSERT_OR_UPDATE">
+        <sys_class_name>sys_security_acl_role</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2016-11-05 07:12:34</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>645d50574f7aa2002af104f18110c74d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_snc_powerplanner_ac_vent.x_snc_powerplanner.admin</sys_name>
+        <sys_package display_value="PowerPlanner" source="x_snc_powerplanner">42bd445f4f3aa2002af104f18110c7c2</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="PowerPlanner">42bd445f4f3aa2002af104f18110c7c2</sys_scope>
+        <sys_security_acl display_value="x_snc_powerplanner_ac_vent">e85d50574f7aa2002af104f18110c74a</sys_security_acl>
+        <sys_update_name>sys_security_acl_role_645d50574f7aa2002af104f18110c74d</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2016-11-05 07:12:34</sys_updated_on>
+        <sys_user_role display_value="x_snc_powerplanner.admin" name="x_snc_powerplanner.admin">72351c134f7aa2002af104f18110c75a</sys_user_role>
+        <transaction_id/>
+    </sys_security_acl_role>
+</record_update>

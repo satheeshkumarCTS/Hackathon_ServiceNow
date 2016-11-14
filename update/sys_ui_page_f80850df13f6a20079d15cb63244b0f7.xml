@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[var app= angular.module('powerApp',[]);
+app.controller('maincontroller',function($scope,powerappservices){
+	$scope.showadmin=true;
+			$scope.showsimulate=false;
+				powerappservices.getCubilcles().then(function(response){
+					$scope.cubicles=_.sortBy(response.data.result, 'number');
+					console.log($scope.cubicles);
+				});
+	$scope.setCabinColor =function(count){
+			if(count==0){
+				return 'green';
+			}else if(count>0&& count<5){
+				return 'amber';
+			}else{
+				return 'red';
+			}
+	};
+	$scope.changeMenu=function(type){
+		console.log(type);
+		if(type=='admin'){
+			$scope.showadmin=true;
+			$scope.showsimulate=false;
+		}else{
+			$scope.showadmin=false;
+			$scope.showsimulate=true;
+		}
+	};
+	$scope.addpersontocubicle=function(cubnum){
+		$scope.cubicles[cubnum-1].persons_count=parseInt($scope.cubicles[cubnum-1].persons_count)+1;
+	};
+	$scope.removepersontocubicle=function(cubnum){
+		$scope.cubicles[cubnum-1].persons_count=parseInt($scope.cubicles[cubnum-1].persons_count)-1;
+		if($scope.cubicles[cubnum-1].persons_count<0){
+			$scope.cubicles[cubnum-1].persons_count=0;
+		}
+	};
+	
+
+			});
+app.factory('powerappservices',function($http,$q){
+	var services={};
+	services.getCubilcles=function(){
+		var deferred = $q.defer();
+		function cubicleSuccess(response){
+			console.log(response);
+			deferred.resolve(response);
+		}
+		function cubicleError(e){
+			
+		}
+		var req = {
+ method: 'GET',
+ url: 'https://hackathon047.service-now.com/api/now/table/x_snc_powerplanner_cubicle',
+ headers: {
+   'Content-Type': 'application/json',
+	 'Accept':'application/json',
+	 'Authorization':'Basic '+btoa('admin'+':'+'hacknow')
+ }
+};
+
+$http(req).then(cubicleSuccess, cubicleError);
+	return deferred.promise;										
+											
+
+	};
+	return services;
+});]]></client_script>
+        <description/>
+        <direct>false</direct>
+        <endpoint>x_snc_powerplanner_index.html.do</endpoint>
+        <html><![CDATA[<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>Digital Spartans</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+	  
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.6/lodash.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js">
+		
+		
+	  </script>
+    <style type="text/css">    
+		.bodycont {
+		  padding: 60px 15px 0;
+		}
+		.container .text-muted {
+		  margin: 20px 0;
+		}
+
+		.footer > .container {
+		  padding-right: 15px;
+		  padding-left: 15px;
+		}
+
+		code {
+		  font-size: 80%;
+		}
+      .cabin{
+        padding: 30px 20px;
+        background-color: #efefef;
+        border: 1px solid #eee;
+        text-align:center;
+        color: #666;  
+        margin: 5px;
+		padding-top:0;
+        border-radius: 10px;
+      }
+		.cabin h4{
+			text-align:left;
+		}
+      .amber{
+        background-color: orange;
+        color: #fff;
+      }
+      .green{
+        background-color: green;
+        color: #fff;
+      }
+      .red{
+        background-color: red;
+        color: #fff;
+      }
+
+      .deskplace .col-sm-4, .quite .col-sm-2{
+        padding-right: 0;
+        padding-left: 0;
+
+      }
+      .conference .cabin{
+         padding: 10px 10px;
+		padding-top:0;
+		min-height:215px;
+      }
+      .conference .col-sm-12{
+        padding-right: 0;
+        padding-left: 0;
+      }
+		.conference img{
+		vertical-align:middle;
+		}
+      .quite .cabin{
+         padding: 10px;
+		padding-top:0;
+      }
+      .container .text-muted{
+        margin: 5px;
+      }
+		h4{
+			clear:both;
+		height:1%;
+		}
+		h4 span.name{
+			display:inline-block;
+			float:left;
+		}
+		h4 span.badge{
+			display:inline-block;
+			float:right;
+		}
+.cabin img{
+		cursor:pointer;
+		}
+      .footer{
+        height: 30px;
+      }
+		[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+    </style>
+  </head>
+  <body ng-app="powerApp" >
+	    <div ng-controller="maincontroller">
+    <nav class="navbar navbar-default navbar-fixed-top" >
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Power Planner</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li ng-class="{active:showadmin}" id="dashboardPageTrigger" ng-click="changeMenu('admin')"><a href="#">Dashboard</a></li>
+            <li  ng-class="{active:showsimulate}"><a href="#" id="stimulationTrigger" ng-click="changeMenu('simulate')">Stimulation</a></li>          
+          </ul>
+        </div>
+      </div>
+    </nav>
+	
+    <div class="container bodycont ng-cloak"  ng-show="showadmin">           
+      <div class="container-fluid deskplace">
+          <div class="row">
+              <div class="col-sm-10">
+                <h4>Workplace</h4>
+                <div class="row">
+                    <div class="col-sm-4" align="center">
+						  <img src="ac_top_on.png" width="32" height="32" />
+                      <div class="cabin" ng-class="setCabinColor(cubicles[0].persons_count)">
+                         
+						  <h4 class="row"><span class="name">{{cubicles[0].name}}</span> <span class="badge">{{cubicles[0].persons_count}}</span></h4>
+						  <img ng-src="bulb_{{cubicles[0].persons_count>0?'on':'off'}}.png" width="32" height="32"/>						  
+                      </div>
+                    </div>
+                    <div class="col-sm-4" align="center">
+						 <img src="ac_top_on.png" width="32" height="32"/>
+                      <div class="cabin" ng-class="setCabinColor(cubicles[1].persons_count)">
+                          
+						  <h4 class="row"><span class="name">{{cubicles[1].name}}</span> <span class="badge">{{cubicles[1].persons_count}}</span></h4>
+						  <img ng-src="bulb_{{cubicles[1].persons_count>0?'on':'off'}}.png" width="32" height="32"/>
+                      </div>
+                    </div>
+                    <div class="col-sm-4" align="center">
+						 <img src="ac_top_off.png" width="32" height="32"/>
+                      <div class="cabin" ng-class="setCabinColor(cubicles[2].persons_count)">
+                          <h4 class="row"><span class="name">{{cubicles[2].name}}</span> <span class="badge">{{cubicles[2].persons_count}}</span></h4>
+						  <img ng-src="bulb_{{cubicles[2].persons_count>0?'on':'off'}}.png" width="32" height="32"/>
+                      </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4" align="center">
+                      <div class="cabin" ng-class="setCabinColor(cubicles[3].persons_count)">
+                        <h4 class="row"><span class="name">{{cubicles[3].name}}</span> <span class="badge">{{cubicles[3].persons_count}}</span></h4>
+						  <img ng-src="bulb_{{cubicles[3].persons_count>0?'on':'off'}}.png" width="32" height="32"/>
+                      </div>
+                    </div>
+                    <div class="col-sm-4" align="center">
+                      <div class="cabin" ng-class="setCabinColor(cubicles[4].persons_count)">
+                          <h4 class="row"><span class="name">{{cubicles[4].name}}</span> <span class="badge">{{cubicles[4].persons_count}}</span></h4>
+						  <img ng-src="bulb_{{cubicles[4].persons_count>0?'on':'off'}}.png" width="32" height="32"/>						 
+                      </div>
+                    </div>
+                    <div class="col-sm-4" align="center">
+                      <div class="cabin" ng-class="setCabinColor(cubicles[5].persons_count)">
+                          <h4 class="row"><span class="name">{{cubicles[5].name}}</span> <span class="badge">{{cubicles[5].persons_count}}</span></h4>
+						  <img ng-src="bulb_{{cubicles[5].persons_count>0?'on':'off'}}.png" width="32" height="32"/>					  
+                      </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4" align="center">
+                      <div class="cabin" ng-class="setCabinColor(cubicles[6].persons_count)">
+                          <h4 class="row"><span class="name">{{cubicles[6].name}}</span> <span class="badge">{{cubicles[6].persons_count}}</span></h4>
+						  <img ng-src="bulb_{{cubicles[6].persons_count>0?'on':'off'}}.png" width="32" height="32"/>						  
+                      </div>
+                    </div>
+                    <div class="col-sm-4" align="center">
+                      <div class="cabin" ng-class="setCabinColor(cubicles[7].persons_count)">
+                         
+						  <h4 class="row"><span class="name">{{cubicles[7].name ?cubicles[7].name :  'Cubicles 008' }}</span> <span class="badge">{{cubicles[7].persons_count}}</span></h4>
+						  <img ng-src="bulb_{{cubicles[7].persons_count>0?'on':'off'}}.png" width="32" height="32"/>					  
+                      </div>
+                    </div>
+                    <div class="col-sm-4" align="center">
+                      <div class="cabin" ng-class="setCabinColor(cubicles[8].persons_count)">
+                          <h4 class="row"><span class="name">{{cubicles[8].name}}</span> <span class="badge">{{cubicles[8].persons_count}}</span></h4>
+						  <img ng-src="bulb_{{cubicles[8].persons_count>0?'on':'off'}}.png" width="32" height="32"/>						  
+                      </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4" align="center">
+                      <div class="cabin" ng-class="setCabinColor(cubicles[9].persons_count)">
+                          <h4 class="row"><span class="name">{{cubicles[9].name}}</span> <span class="badge">{{cubicles[9].persons_count}}</span></h4>
+						  <img ng-src="bulb_{{cubicles[9].persons_count>0?'on':'off'}}.png" width="32" height="32"/>
+                      </div>
+						<img src="ac_bottom_on.png" width="32" height="32"/>
+                    </div>
+                    <div class="col-sm-4" align="center">
+						 <div class="cabin" ng-class="setCabinColor(cubicles[10].persons_count)">
+                          <h4 class="row"><span class="name">{{cubicles[10].name}}</span> <span class="badge">{{cubicles[10].persons_count}}</span></h4>
+						  <img ng-src="bulb_{{cubicles[10].persons_count>0?'on':'off'}}.png" width="32" height="32"/>					  
+                      </div>
+						<img src="ac_bottom_off.png" width="32" height="32"/>
+                    </div>
+                    <div class="col-sm-4" align="center">
+                      <div class="cabin" ng-class="setCabinColor(cubicles[11].persons_count)">
+                          <h4 class="row"><span class="name">{{cubicles[11].name}}</span> <span class="badge">{{cubicles[11].persons_count}}</span></h4>
+						  <img ng-src="bulb_{{cubicles[11].persons_count>0?'on':'off'}}.png" width="32" height="32"/>						  
+                      </div>
+						<img src="ac_bottom_off.png" width="32" height="32"/>
+                    </div>
+                </div>
+              </div>
+              <div class="col-sm-2 conference">
+                <h4>Conference Room</h4>
+                <div class="row">
+                   <div class="col-sm-12" align="center">
+					    <img src="ac_top_off.png" width="32" height="32"/>
+                       <div class="cabin">                         
+						   <h4>Conference 1</h4>						 
+						  <img src="bulb_off.png" width="32" height="32"/>
+                      </div>
+                   </div>
+                   <div class="col-sm-12" align="center">					   
+                     <div class="cabin">                         
+						 <h4>Conference 2</h4>
+						  <img src="bulb_on.png" width="32" height="32"/>						  
+                      </div>
+					    <img src="ac_bottom_on.png" width="32" height="32"/>
+                   </div>                   
+                </div>
+              </div>
+          </div> 
+		  <hr/>
+          <div class="row quite">
+            <div class="col-sm-12">
+              <h4>Quite Room</h4>
+              <div class="row">
+                   <div class="col-sm-2" align="center">
+					    <img src="ac_top_on.png" width="32" height="32"/>
+                       <div class="cabin">
+                          <h4>Quite 1</h4>
+						  <img src="bulb_on.png" width="32" height="32"/>						  
+                      </div>
+                   </div>
+                   <div class="col-sm-2" align="center">
+					    <img src="ac_top_off.png" width="32" height="32"/>
+                     <div class="cabin">
+                          <h4>Quite 2</h4>						  
+						  <img src="bulb_off.png" width="32" height="32"/>
+                      </div>
+                   </div>
+                   <div class="col-sm-2" align="center">
+					    <img src="ac_top_on.png" width="32" height="32"/>
+                     <div class="cabin">
+                          <h4>Quite 3</h4>
+						  <img src="bulb_on.png" width="32" height="32"/>						  
+                      </div>
+                   </div>
+				  <div class="col-sm-2" align="center">
+					   <img src="ac_top_on.png" width="32" height="32"/>
+                     <div class="cabin">
+                          <h4>Quite 4</h4>						  
+						  <img src="bulb_off.png" width="32" height="32"/>
+                      </div>
+                   </div>
+                   <div class="col-sm-2" align="center">
+					    <img src="ac_top_on.png" width="32" height="32"/>
+                     <div class="cabin">
+                          <h4>Quite 5</h4>
+						  <img src="bulb_on.png" width="32" height="32"/>						  
+                      </div>
+                   </div>
+                </div>
+            </div>
+          </div>
+      </div>
+    </div> 
+	  <div class="container bodycont ng-cloak" id="stimulatorsPage"   ng-show="showsimulate">
+		  
+		  <div class="container-fluid deskplace">
+          <div class="row">
+              <div class="col-sm-10">
+                <h4>Workplace</h4>
+                <div class="row">
+                    <div class="col-sm-4" align="center">
+						  <img src="ac_top_on.png" width="32" height="32" />
+                      <div class="cabin">
+						  <h4 class="row"><span class="name">{{cubicles[0].name}}</span> <span class="badge">{{cubicles[0].persons_count}}</span></h4>
+						  <img src="in.png" width="32" height="32" ng-click="addpersontocubicle(1)"/>
+						  <img src="out.png" width="32" height="32" ng-click="removepersontocubicle(1)"/>
+                      </div>
+                    </div>
+                    <div class="col-sm-4" align="center">
+						 <img src="ac_top_on.png" width="32" height="32"/>
+                      <div class="cabin">
+                         <h4 class="row"><span class="name">{{cubicles[1].name}}</span> <span class="badge">{{cubicles[1].persons_count}}</span></h4>
+						  <img src="in.png" width="32" height="32" ng-click="addpersontocubicle(2)"/>
+						  <img src="out.png" width="32" height="32" ng-click="removepersontocubicle(2)"/>
+                      </div>
+                    </div>
+                    <div class="col-sm-4" align="center">
+						 <img src="ac_top_off.png" width="32" height="32"/>
+                      <div class="cabin">
+                          <h4 class="row"><span class="name">{{cubicles[2].name}}</span> <span class="badge">{{cubicles[2].persons_count}}</span></h4>
+						  <img src="in.png" width="32" height="32" ng-click="addpersontocubicle(3)"/>
+						  <img src="out.png" width="32" height="32" ng-click="removepersontocubicle(3)"/>
+                      </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4" align="center">
+                      <div class="cabin">
+                         <h4 class="row"><span class="name">{{cubicles[3].name}}</span> <span class="badge">{{cubicles[3].persons_count}}</span></h4>
+						  <img src="in.png" width="32" height="32" ng-click="addpersontocubicle(4)"/>
+						  <img src="out.png" width="32" height="32" ng-click="removepersontocubicle(4)"/>
+                      </div>
+                    </div>
+                    <div class="col-sm-4" align="center">
+                      <div class="cabin">
+                         <h4 class="row"><span class="name">{{cubicles[4].name}}</span> <span class="badge">{{cubicles[4].persons_count}}</span></h4>
+						  <img src="in.png" width="32" height="32" ng-click="addpersontocubicle(5)"/>
+						  <img src="out.png" width="32" height="32" ng-click="removepersontocubicle(5)"/>	 
+                      </div>
+                    </div>
+                    <div class="col-sm-4" align="center">
+                      <div class="cabin">
+                          <h4 class="row"><span class="name">{{cubicles[5].name}}</span> <span class="badge">{{cubicles[5].persons_count}}</span></h4>
+						  <img src="in.png" width="32" height="32" ng-click="addpersontocubicle(6)"/>
+						  <img src="out.png" width="32" height="32" ng-click="removepersontocubicle(6)"/>		  
+                      </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4" align="center">
+                      <div class="cabin">
+                          <h4 class="row"><span class="name">{{cubicles[6].name}}</span> <span class="badge">{{cubicles[6].persons_count}}</span></h4>
+						  <img src="in.png" width="32" height="32" ng-click="addpersontocubicle(7)"/>
+						  <img src="out.png" width="32" height="32" ng-click="removepersontocubicle(7)"/>			  
+                      </div>
+                    </div>
+                    <div class="col-sm-4" align="center">
+                      <div class="cabin">
+                          <h4 class="row"><span class="name">{{cubicles[7].name}}</span> <span class="badge">{{cubicles[7].persons_count}}</span></h4>
+						  <img src="in.png" width="32" height="32" ng-click="addpersontocubicle(8)"/>
+						  <img src="out.png" width="32" height="32" ng-click="removepersontocubicle(8)"/>  
+                      </div>
+                    </div>
+                    <div class="col-sm-4" align="center">
+                      <div class="cabin">
+                          <h4 class="row"><span class="name">{{cubicles[8].name}}</span> <span class="badge">{{cubicles[8].persons_count}}</span></h4>
+						  <img src="in.png" width="32" height="32" ng-click="addpersontocubicle(9)"/>
+						  <img src="out.png" width="32" height="32" ng-click="removepersontocubicle(9)"/>			  
+                      </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4" align="center">
+                      <div class="cabin">
+                         <h4 class="row"><span class="name">{{cubicles[9].name}}</span> <span class="badge">{{cubicles[9].persons_count}}</span></h4>
+						  <img src="in.png" width="32" height="32" ng-click="addpersontocubicle(10)"/>
+						  <img src="out.png" width="32" height="32" ng-click="removepersontocubicle(10)"/>
+                      </div>
+						<img src="ac_bottom_on.png" width="32" height="32"/>
+                    </div>
+                    <div class="col-sm-4" align="center">
+						 <div class="cabin">
+                          <h4 class="row"><span class="name">{{cubicles[10].name}}</span> <span class="badge">{{cubicles[10].persons_count}}</span></h4>
+						  <img src="in.png" width="32" height="32" ng-click="addpersontocubicle(11)"/>
+						  <img src="out.png" width="32" height="32" ng-click="removepersontocubicle(11)"/>				  
+                      </div>
+						<img src="ac_bottom_off.png" width="32" height="32"/>
+                    </div>
+                    <div class="col-sm-4" align="center">
+                      <div class="cabin">
+                          <h4 class="row"><span class="name">{{cubicles[11].name}}</span> <span class="badge">{{cubicles[11].persons_count}}</span></h4>
+						  <img src="in.png" width="32" height="32" ng-click="addpersontocubicle(12)"/>
+						  <img src="out.png" width="32" height="32" ng-click="removepersontocubicle(12)"/>				  
+                      </div>
+						<img src="ac_bottom_off.png" width="32" height="32"/>
+                    </div>
+                </div>
+              </div>
+              <div class="col-sm-2 conference">
+                <h4>Conference Room</h4>
+                <div class="row">
+                   <div class="col-sm-12" align="center">
+					    <img src="ac_top_off.png" width="32" height="32"/>
+                       <div class="cabin">                          
+						   <h4>Conference 1</h4>						 
+						  <img src="in.png" width="32" height="32"/>
+						  <img src="out.png" width="32" height="32"/>
+                      </div>
+                   </div>
+                   <div class="col-sm-12" align="center">					   
+                     <div class="cabin">                         
+						 <h4>Conference 2</h4>
+						  <img src="in.png" width="32" height="32"/>
+						  <img src="out.png" width="32" height="32"/>					  
+                      </div>
+					    <img src="ac_bottom_on.png" width="32" height="32"/>
+                   </div>                   
+                </div>
+              </div>
+          </div> 
+		  <hr/>
+          <div class="row quite">
+            <div class="col-sm-12">
+              <h4>Quite Room</h4>
+              <div class="row">
+                   <div class="col-sm-2" align="center">
+					    <img src="ac_top_on.png" width="32" height="32"/>
+                       <div class="cabin">
+                          <h4>Quite 1</h4>
+						  <img src="in.png" width="32" height="32"/>
+						  <img src="out.png" width="32" height="32"/>						  
+                      </div>
+                   </div>
+                   <div class="col-sm-2" align="center">
+					    <img src="ac_top_off.png" width="32" height="32"/>
+                     <div class="cabin">
+                          <h4>Quite 2</h4>						  
+						  <img src="in.png" width="32" height="32"/>
+						  <img src="out.png" width="32" height="32"/>
+                      </div>
+                   </div>
+                   <div class="col-sm-2" align="center">
+					    <img src="ac_top_on.png" width="32" height="32"/>
+                     <div class="cabin">
+                          <h4>Quite 3</h4>
+						  <img src="in.png" width="32" height="32"/>
+						  <img src="out.png" width="32" height="32"/>						  
+                      </div>
+                   </div>
+				  <div class="col-sm-2" align="center">
+					   <img src="ac_top_on.png" width="32" height="32"/>
+                     <div class="cabin">
+                          <h4>Quite 4</h4>						  
+						  <img src="in.png" width="32" height="32"/>
+						  <img src="out.png" width="32" height="32"/>
+                      </div>
+                   </div>
+                   <div class="col-sm-2" align="center">
+					    <img src="ac_top_on.png" width="32" height="32"/>
+                     <div class="cabin">
+                          <h4>Quite 5</h4>
+						  <img src="in.png" width="32" height="32"/>
+						  <img src="out.png" width="32" height="32"/>						  
+                      </div>
+                   </div>
+                </div>
+            </div>
+          </div>
+      </div>
+	  </div>
+	  </div>
+  </body>
+</html>]]></html>
+        <name>index.html</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2016-11-05 06:49:45</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>f80850df13f6a20079d15cb63244b0f7</sys_id>
+        <sys_mod_count>95</sys_mod_count>
+        <sys_name>index.html</sys_name>
+        <sys_package display_value="PowerPlanner" source="x_snc_powerplanner">42bd445f4f3aa2002af104f18110c7c2</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="PowerPlanner">42bd445f4f3aa2002af104f18110c7c2</sys_scope>
+        <sys_update_name>sys_ui_page_f80850df13f6a20079d15cb63244b0f7</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2016-11-07 08:55:19</sys_updated_on>
+    </sys_ui_page>
+</record_update>

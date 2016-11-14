@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_page">
+    <sp_page action="INSERT_OR_UPDATE">
+        <css/>
+        <id>main_page</id>
+        <internal>false</internal>
+        <public>false</public>
+        <roles/>
+        <short_description/>
+        <sys_class_name>sp_page</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2016-11-05 07:51:59</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>d43664d7133aa20079d15cb63244b0ea</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>main_page</sys_name>
+        <sys_package display_value="PowerPlanner" source="x_snc_powerplanner">42bd445f4f3aa2002af104f18110c7c2</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="PowerPlanner">42bd445f4f3aa2002af104f18110c7c2</sys_scope>
+        <sys_update_name>sp_page_d43664d7133aa20079d15cb63244b0ea</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2016-11-05 07:51:59</sys_updated_on>
+        <title>main</title>
+    </sp_page>
+</record_update>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_documentation element="start_time" label="Start time" language="en" table="x_snc_powerplanner_lights_log">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>start_time</element>
+            <help/>
+            <hint/>
+            <label>Start time</label>
+            <language>en</language>
+            <name>x_snc_powerplanner_lights_log</name>
+            <plural>Start times</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2016-11-05 06:34:56</sys_created_on>
+            <sys_customer_update>true</sys_customer_update>
+            <sys_id>d9b4d4134f7aa2002af104f18110c7a3</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Start time</sys_name>
+            <sys_package display_value="PowerPlanner" source="x_snc_powerplanner">42bd445f4f3aa2002af104f18110c7c2</sys_package>
+            <sys_policy/>
+            <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+            <sys_scope display_value="PowerPlanner">42bd445f4f3aa2002af104f18110c7c2</sys_scope>
+            <sys_update_name>sys_documentation_x_snc_powerplanner_lights_log_start_time_en</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2016-11-05 06:34:56</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

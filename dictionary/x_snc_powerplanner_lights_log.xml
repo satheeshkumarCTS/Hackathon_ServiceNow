@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="lights_log" max_length="40" name="x_snc_powerplanner_lights_log" type="collection">
+        <element label="Light ID" max_length="40" name="light_id" type="string"/>
+        <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" type="string"/>
+        <element label="Start time" max_length="40" name="start_time" type="glide_date_time"/>
+        <element label="Stop time" max_length="40" name="stop_time" type="glide_date_time"/>
+    </element>
+</database>
